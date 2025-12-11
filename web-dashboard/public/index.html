@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VajraScan | Enterprise Cloud Security</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <span class="shield">🛡️</span> VajraScan
+        </div>
+        <nav>
+            <a href="#" class="active">Dashboard</a>
+            <a href="#">Compliance Reports</a>
+            <a href="#">Settings</a>
+        </nav>
+        <div class="version">
+            <div class="status-dot"></div> System Online<br>
+            <small>v2.0 Enterprise</small>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <div>
+                <h1>Security Posture Dashboard</h1>
+                <p class="subtitle">Multi-Cloud Compliance Monitoring (AWS & Azure)</p>
+            </div>
+            
+            <div>
+                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                    + New Scan
+                </button>
+                <input type="file" id="fileInput" hidden accept=".tf">
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="card metric-card">
+                <h3>Compliance Score</h3>
+                <div class="big-number" id="score">--</div>
+                <div class="trend up">▲ Secure</div>
+            </div>
+            <div class="card metric-card">
+                <h3>Critical Issues</h3>
+                <div class="big-number red" id="criticalCount">--</div>
+                <div class="trend down">▼ Action Needed</div>
+            </div>
+            <div class="card metric-card">
+                <h3>Active Clouds</h3>
+                <div class="big-number" id="cloudCount">--</div>
+                <div class="trend neutral">AWS / Azure</div>
+            </div>
+        </div>
+
+        <div class="charts-grid hidden" id="chartsArea">
+            <div class="card">
+                <h3>Severity Breakdown</h3>
+                <div class="chart-container">
+                    <canvas id="severityChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Cloud Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="cloudChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card table-container hidden" id="resultsArea">
+            <div class="table-header">
+                <h3>Detailed Findings</h3>
+                <button class="export-btn">Export PDF</button>
+            </div>
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>Cloud</th>
+                        <th>Resource</th>
+                        <th>Severity</th>
+                        <th>Compliance Violation</th>
+                        <th>Remediation Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

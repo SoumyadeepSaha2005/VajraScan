@@ -1,0 +1,186 @@
+:root {
+    --bg-dark: #0f172a;       /* Deep Navy Background */
+    --bg-card: #1e293b;       /* Lighter Navy for Cards */
+    --text-primary: #f8fafc;  /* White Text */
+    --text-secondary: #94a3b8;/* Grey Text */
+    --accent: #3b82f6;        /* Blue Accent */
+    --danger: #ef4444;        /* Red for Critical */
+    --warning: #f59e0b;       /* Orange for High */
+    --success: #10b981;       /* Green for Secure */
+    --sidebar-width: 260px;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #020617;
+    border-right: 1px solid #1e293b;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar nav a {
+    display: block;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.sidebar nav a:hover, .sidebar nav a.active {
+    background-color: #1e293b;
+    color: var(--accent);
+}
+
+.version {
+    margin-top: auto;
+    color: #475569;
+    font-size: 12px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--success);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    box-shadow: 0 0 10px var(--success);
+}
+
+/* Main Content Styling */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+h1 { margin: 0; font-size: 28px; }
+.subtitle { margin: 5px 0 0; color: var(--text-secondary); }
+
+.upload-btn {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    transition: transform 0.2s;
+}
+
+.upload-btn:hover { transform: translateY(-2px); }
+
+/* Stats Cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.metric-card h3 { margin: 0; color: var(--text-secondary); font-size: 14px; font-weight: 500; }
+.big-number { font-size: 42px; font-weight: 700; margin: 12px 0; }
+.big-number.red { color: var(--danger); }
+
+.trend { font-size: 12px; font-weight: 600; }
+.trend.up { color: var(--success); }
+.trend.down { color: var(--danger); }
+.trend.neutral { color: var(--text-secondary); }
+
+/* Charts Area */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.chart-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
+}
+
+/* Data Table */
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.export-btn {
+    background: transparent;
+    border: 1px solid #334155;
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #334155;
+}
+
+th { color: var(--text-secondary); font-weight: 500; font-size: 14px; }
+td { font-size: 14px; }
+
+code {
+    background-color: #0f172a;
+    padding: 6px 10px;
+    border-radius: 4px;
+    color: var(--success);
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    border: 1px solid #334155;
+}
+
+.hidden { display: none; }

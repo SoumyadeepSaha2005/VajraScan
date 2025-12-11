@@ -1,0 +1,4 @@
+python-hcl2
+rich
+streamlit
+pandas

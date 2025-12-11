@@ -14,3 +14,14 @@ resource "aws_security_group" "allow_all" {
     cidr_blocks = ["0.0.0.0/0"] # ❌ Error 2: Open Firewall (The whole world can enter)
   }
 }
+# --- AZURE RESOURCES (New Support) ---
+resource "azurerm_storage_account" "legacy_store" {
+  name                     = "legacy-data-store"
+  resource_group_name      = "finance-rg"
+  location                 = "East US"
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  
+  # ❌ Error 3: Non-HTTPS traffic allowed (Insecure)
+  enable_https_traffic_only = false 
+}

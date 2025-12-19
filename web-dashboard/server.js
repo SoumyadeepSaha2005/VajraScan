@@ -30,6 +30,10 @@ try {
         console.log("🧐 KEY INSPECTION:");
         console.log("   - Project ID:", serviceAccount.project_id);
         console.log("   - Client Email:", serviceAccount.client_email);
+
+        const serverTime = new Date();
+        console.log("   - Server Time:", serverTime.toISOString());
+        
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount)
         });

@@ -12,8 +12,8 @@ let db = null; // Start with database as null
 try {
     let serviceAccount;
     // Check Render's secret path first, then local path
-    const renderPath = '/etc/secrets/serviceAccountKey.json';
-    const localPath = './serviceAccountKey.json';
+    const renderPath = '/etc/secrets/firebase-key.json';
+    const localPath = './firebase-key.json';
 
     if (fs.existsSync(renderPath)) {
         console.log("✅ SYSTEM CHECK: Found key at " + renderPath);
@@ -27,6 +27,9 @@ try {
 
     // Only initialize if we found a key
     if (serviceAccount) {
+        console.log("🧐 KEY INSPECTION:");
+        console.log("   - Project ID:", serviceAccount.project_id);
+        console.log("   - Client Email:", serviceAccount.client_email);
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount)
         });

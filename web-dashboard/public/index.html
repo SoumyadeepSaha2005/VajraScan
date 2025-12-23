@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
 </head>
 <body>
     <div class="sidebar">
@@ -17,6 +21,7 @@
             <a href="#" onclick="showSection('dashboard')" class="nav-link active" id="nav-dashboard">Dashboard</a>
             <a href="#" onclick="showSection('reports')" class="nav-link" id="nav-reports">Compliance Reports</a>
             <a href="#" onclick="showSection('settings')" class="nav-link" id="nav-settings">Settings</a>
+            <a href="#" onclick="logout()" class="nav-link" style="color: #ff6b6b; margin-top: 20px;">🚪 Logout</a>
         </nav>
         <div class="version">
             <div class="status-dot"></div> System Online<br>
@@ -200,5 +205,23 @@
     </div>
 
     <script src="app.js"></script>
+    <script>
+        // GATEKEEPER: Check if user is logged in
+        auth.onAuthStateChanged(function(user) {
+            if (user) {
+                console.log("User is logged in:", user.email);
+            } else {
+                // No user? Kick them to login page!
+                window.location.href = "login.html";
+            }
+        });
+
+        // Add a Logout function you can call from a button
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = "login.html";
+            });
+        }
+    </script>
 </body>
 </html>

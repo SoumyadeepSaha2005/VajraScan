@@ -24,8 +24,8 @@ Modern companies deploy cloud infrastructure using code (Terraform). A single mi
 ### 🔐 Secure Authentication (Firebase)
 *Enterprise-grade Login and Signup system with Role-Based Access Control.*
 <p float="left">
-  <img src="screenshots/login.jpg" width="45%" />
-  <img src="screenshots/signup.jpg" width="45%" /> 
+  <img src="screenshots/login.png" width="45%" />
+  <img src="screenshots/signup.png" width="45%" /> 
 </p>
 
 ### ☁️ Automated Deployment

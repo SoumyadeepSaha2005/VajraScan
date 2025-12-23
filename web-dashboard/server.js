@@ -1,3 +1,5 @@
+require('dotenv').config(); // Load environment variables
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const express = require('express');
 const multer = require('multer');
 const { spawn } = require('child_process');
@@ -117,6 +119,39 @@ app.post('/scan', upload.single('tfFile'), (req, res) => {
             res.status(500).json({ error: 'Scanner failed to produce valid JSON', raw: dataString });
         }
     });
+});
+
+app.post('/ai-fix', async (req, res) => {
+    try {
+        const { violation, resource } = req.body;
+        
+        const genAI = new GoogleGenerativeAI("AIzaSyBRf0o3nuGCR7VwiilhcYP-Q3ZsIxrVNwE");
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+        const prompt = `
+        I am a Cloud Security Expert.
+        I have a Terraform resource named "${resource}" that failed a security check.
+        The violation is: "${violation}".
+        
+        Please provide the CORRECTED Terraform HCL code snippet to fix this specific issue.
+        Do not explain. Just give me the code block.
+        `;
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+
+        res.json({ fix: text });
+
+    } catch (error) {
+        console.error("AI Error:", error);
+        res.status(500).json({ error: "AI Brain is tired. Try again." });
+    }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running...`);
 });
 
 const PORT = process.env.PORT || 3000;

@@ -89,13 +89,20 @@ function renderDashboard(data) {
     tbody.innerHTML = '';
     data.forEach(issue => {
         let color = issue.Severity === 'CRITICAL' ? '#ef4444' : '#f59e0b';
+        
+        // --- UPDATED ROW WITH AI BUTTON ---
         tbody.innerHTML += `
             <tr>
                 <td>${issue.Cloud}</td>
                 <td><b>${issue.Resource}</b></td>
                 <td><span style="color:${color}">${issue.Severity}</span></td>
                 <td>${issue.Compliance}</td>
-                <td><code>${issue.Fix}</code></td>
+                <td>
+                    <button onclick="askAI('${issue.Compliance}', '${issue.Resource}')" 
+                            style="background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 500;">
+                        ✨ AI Fix
+                    </button>
+                </td>
             </tr>`;
     });
 
@@ -194,4 +201,37 @@ function renderCharts(data) {
             datasets: [{ label: 'Issues', data: Object.values(cloudCounts), backgroundColor: '#3b82f6' }]
         }
     });
+}
+
+// --- AI BRAIN LOGIC (NEW) ---
+async function askAI(violation, resource) {
+    // 1. Show the Modal (Loading state)
+    const modal = document.getElementById('aiModal');
+    const content = document.getElementById('aiContent');
+    modal.style.display = 'flex'; // Show it
+    content.innerText = "🧠 VajraAI is analyzing the violation and generating secure code...";
+
+    try {
+        // 2. Call the Server
+        const response = await fetch('/ai-fix', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ violation, resource })
+        });
+        
+        const data = await response.json();
+        
+        // 3. Show Result
+        if (data.fix) {
+            content.innerText = data.fix;
+        } else {
+            content.innerText = "Error: Could not generate fix.";
+        }
+    } catch (e) {
+        content.innerText = "Error: AI server is unreachable.";
+    }
+}
+
+function closeModal() {
+    document.getElementById('aiModal').style.display = 'none';
 }

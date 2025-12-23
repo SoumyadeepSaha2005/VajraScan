@@ -30,15 +30,27 @@ function saveSettings() {
     showSection('dashboard');
 }
 
-// --- SCAN LOGIC ---
+// --- SCAN LOGIC (UPDATED FOR PRIVACY) ---
 fileInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    // 1. PRIVACY CHECK: Get Current User
+    const user = auth.currentUser;
+    if (!user) {
+        alert("⚠️ You must be logged in to scan files.");
+        window.location.href = "login.html";
+        return;
+    }
 
     const formData = new FormData();
     formData.append('tfFile', file);
     // Send settings as a JSON string
     formData.append('settings', JSON.stringify(currentSettings));
+    
+    // 2. ATTACH USER ID (This keeps data private)
+    formData.append('userId', user.uid);
+    formData.append('userEmail', user.email);
 
     const btn = document.querySelector('.upload-btn');
     btn.innerText = "Scanning...";
@@ -55,7 +67,7 @@ fileInput.addEventListener('change', async (e) => {
         
     } catch (error) {
         console.error('Error:', error);
-        alert("Scan Failed.");
+        alert("Scan Failed. Please check console.");
     } finally {
         btn.innerText = "+ New Scan";
         btn.style.opacity = "1";

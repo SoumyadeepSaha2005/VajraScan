@@ -46,7 +46,9 @@ try {
 // ----------------------------
 
 app.use(express.static('public'));
-app.use(express.json());
+// Note: express.json() is not strictly needed for the scan route (multer handles it), 
+// but good to keep for other potential routes.
+app.use(express.json()); 
 
 app.post('/scan', upload.single('tfFile'), (req, res) => {
     if (!req.file) {
@@ -55,6 +57,11 @@ app.post('/scan', upload.single('tfFile'), (req, res) => {
 
     const filePath = req.file.path;
     const settings = req.body.settings || "{}";
+    
+    // --- 1. CAPTURE USER INFO (Added This) ---
+    const userId = req.body.userId || 'anonymous';
+    const userEmail = req.body.userEmail || 'unknown';
+    // ----------------------------------------
 
     const pythonProcess = spawn('python', ['../scanner.py', filePath, settings]);
 
@@ -79,13 +86,20 @@ app.post('/scan', upload.single('tfFile'), (req, res) => {
             // 2. Try to save to Firebase (Safely)
             if (db) {
                 try {
-                    console.log("⏳ Attempting to save to database...");
+                    console.log(`⏳ Attempting to save scan for user: ${userEmail}`);
+                    
+                    // --- 2. SAVE WITH USER ID (Added This) ---
                     await db.collection('scans').add({
-                        timestamp: admin.firestore.FieldValue.serverTimestamp(),
+                        userId: userId,        // <--- Privacy Key
+                        userEmail: userEmail,  // <--- Audit Log
+                        fileName: req.file.originalname,
                         results: results,
-                        settings: settings
+                        settings: settings,
+                        timestamp: admin.firestore.FieldValue.serverTimestamp()
                     });
                     console.log("✅ SUCCESS: Result saved to Firebase!");
+                    // -----------------------------------------
+                    
                 } catch (dbError) {
                     // IF FIREBASE FAILS, WE LOG IT BUT DO NOT CRASH
                     console.error("⚠️ DATABASE ERROR:", dbError.message);

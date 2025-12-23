@@ -126,7 +126,7 @@ app.post('/ai-fix', async (req, res) => {
         const { violation, resource } = req.body;
         
         const genAI = new GoogleGenerativeAI("AIzaSyBRf0o3nuGCR7VwiilhcYP-Q3ZsIxrVNwE");
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
         const prompt = `
         I am a Cloud Security Expert.
